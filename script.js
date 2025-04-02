@@ -1,39 +1,45 @@
 let player = document.getElementById("player");
 
-window.onkeydown = (e) => { 
-    switch (e.key) {
-        case "ArrowDown":
-            player.style.top = parseInt(getComputedStyle(player).top) + 5 + "px";
-            break;
+let keys = {};
 
-        case "ArrowUp":
-            player.style.top = parseInt(getComputedStyle(player).top) - 5 + "px";
-            break;
-        
-        case "ArrowRight":
-            player.style.left = parseInt(getComputedStyle(player).left) + 5 + "px";
+window.addEventListener("keydown", e => {
+    keys[e.key] = true;
+})
 
-            player.innerText =
-                `
-                   O
-                 _-|\_
-                 '/ \_
-                      
-                `;
+window.addEventListener("keyup", e => {
+    keys[e.key] = false;
+})
 
-            break;
-        
-        case "ArrowLeft":
-            player.style.left = parseInt(getComputedStyle(player).left) - 5 + "px";
-            break;
-        
-        default:
-            break;
+const isKeyDown = (name) => {
+    return keys[name];
+}
+
+
+const update = () => {
+    player.innerText = `   O\n  /|\\ \n  / \\`;
+
+    if (isKeyDown("ArrowDown")) {
+            player.style.top = parseInt(getComputedStyle(player).top) + 4 + "px";
+            player.innerText = `   O\n  /|/ \n  ) (`;
+    }
+    if (isKeyDown("ArrowUp")) {
+        player.style.top = parseInt(getComputedStyle(player).top) - 4 + "px";
+        player.innerText = `   O\n  \\|\\ \n  ) (`;
+    }
+    if (isKeyDown("ArrowRight")) {
+        player.style.left = parseInt(getComputedStyle(player).left) + 4 + "px";
+        player.innerText = `   O\n  /|-\n  / \\`; 
+    }        
+    if (isKeyDown("ArrowLeft")) {
+        player.style.left = parseInt(getComputedStyle(player).left) - 4 + "px";
+        player.innerText = `   O\n  -|\\\n  / \\`; 
+
     }
 
-    player.innerText = `
- O
-/|\
-| |         
-- -`;
+    if (isKeyDown(" ")) {
+        player.innerText = `   O\n  \\|/ \n  / \\`;
+    }
+
+    requestAnimationFrame(update);
 }
+requestAnimationFrame(update);
